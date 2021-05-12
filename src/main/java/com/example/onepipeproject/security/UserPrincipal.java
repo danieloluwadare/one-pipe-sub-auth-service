@@ -18,9 +18,6 @@ public class UserPrincipal implements UserDetails {
 
     private String lastname;
 
-    private String phoneNo;
-
-
     @JsonIgnore
     private String email;
 
@@ -31,11 +28,10 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String firstname, String lastname, String phoneNo, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String firstname, String lastname, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.phoneNo = phoneNo;
         this.email = email;
         this.password = password;
 
@@ -46,14 +42,13 @@ public class UserPrincipal implements UserDetails {
 
     public static UserPrincipal create(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
-                new SimpleGrantedAuthority(role.getName().name())
+                new SimpleGrantedAuthority(role.getName())
         ).collect(Collectors.toList());
 
         return new UserPrincipal(
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getPhoneNo(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities
@@ -76,9 +71,6 @@ public class UserPrincipal implements UserDetails {
         return email;
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
-    }
 
     @Override
     public String getUsername() {
@@ -102,8 +94,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        boolean status = !(1 == blocked) ;
-        return status;
+        return true;
     }
 
     @Override

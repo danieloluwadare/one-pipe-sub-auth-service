@@ -37,9 +37,9 @@ public class Oauth2Config {
         @Autowired
         private JwtAccessTokenConverter jwtAccessTokenConverter;
 
-        @Qualifier("customAccessDeniedHandler")
-        @Autowired
-        private AccessDeniedHandler accessDeniedHandler;
+//        @Qualifier("customAccessDeniedHandler")
+//        @Autowired
+//        private AccessDeniedHandler accessDeniedHandler;
 
         @Autowired
         private TokenStore tokenStore;
@@ -56,7 +56,7 @@ public class Oauth2Config {
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/api/**").authenticated();
-            http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+//            http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
         }
 
