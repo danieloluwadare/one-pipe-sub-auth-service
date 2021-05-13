@@ -65,14 +65,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                         "/**/*.js")
                 .permitAll()
                 .antMatchers("/api/auth/**")
-                .permitAll()
-                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability", "/api/v1/accounts")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
-                .permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                .anyRequest().authenticated().and().exceptionHandling().accessDeniedHandler(new CustomSecurityDeniedHandler())
-        ;
+                .permitAll();
 
     }
 
