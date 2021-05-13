@@ -36,9 +36,10 @@ CREATE TABLE user_roles (
 
 CREATE TABLE salary_history (
     id bigint(20) NOT NULL AUTO_INCREMENT,
-    employee_id bigint(20) NOT NULL,
+    user_id bigint(20) NOT NULL,
+    salary decimal(15,2) DEFAULT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_salary_history_employee_id FOREIGN KEY (employee_id) REFERENCES users (id)
+    CONSTRAINT fk_salary_history_employee_id FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- For a many to many relationship

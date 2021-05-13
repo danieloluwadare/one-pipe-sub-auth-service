@@ -79,7 +79,9 @@ public class User extends DateAudit {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<SalaryHistory> salaryHistories;
 
 
     public User(@NotBlank @Size(max = 255) String firstName,
@@ -90,5 +92,22 @@ public class User extends DateAudit {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public User(@NotBlank @Size(max = 255) String firstName,
+                @NotBlank @Size(max = 255) String lastName,
+                @NotBlank @Size(max = 255)
+                @Email String email,
+                String password,
+                @NotBlank BigDecimal salary,
+                @NotBlank BigDecimal vacationBalance,
+                @NotBlank BigDecimal annualBonus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.salary = salary;
+        this.vacationBalance = vacationBalance;
+        this.annualBonus = annualBonus;
     }
 }

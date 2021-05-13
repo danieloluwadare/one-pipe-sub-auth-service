@@ -1,7 +1,7 @@
 package com.example.onepipeproject.security;
 
 import com.example.onepipeproject.repository.UserRepository;
-import com.example.onepipeproject.exception.ResourceNotFoundException;
+import com.example.onepipeproject.exception.OnePipeResourceNotFoundException;
 import com.example.onepipeproject.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("User", "id", id)
+                () -> new OnePipeResourceNotFoundException("User", "id", id)
         );
 
         return UserPrincipal.create(user);
