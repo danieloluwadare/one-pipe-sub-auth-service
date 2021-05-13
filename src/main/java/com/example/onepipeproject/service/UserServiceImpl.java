@@ -10,6 +10,7 @@ import com.example.onepipeproject.model.User;
 import com.example.onepipeproject.model.dto.ManagerUpdateRequest;
 import com.example.onepipeproject.model.dto.RolesUpdateRequest;
 import com.example.onepipeproject.model.dto.SignUpRequest;
+import com.example.onepipeproject.model.dto.UserUpdateRequest;
 import com.example.onepipeproject.repository.RoleRepository;
 import com.example.onepipeproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
 
 
     private ApplicationEventPublisher applicationEventPublisher;
@@ -103,6 +104,32 @@ public class UserServiceImpl implements IUserService {
         userRepository.save(user);
         return user;
 
+    }
+
+    @Override
+    public User getUserById(long id) {
+        User user = userRepository.findById(id);
+        if(user != null)
+            return user;
+
+        throw new OnePipeResourceNotFoundException("User","id",id);
+
+    }
+
+    @Override
+    public User update(UserUpdateRequest userUpdateRequest) {
+        User user = userRepository.findById(userUpdateRequest.getUserId());
+        if(user == null)
+            throw new OnePipeResourceNotFoundException("User","id",userUpdateRequest.getUserId());
+        user.setEmail(userUpdateRequest.getEmail());
+        user.setLastName(userUpdateRequest.getLastName());
+        user.setFirstName(userUpdateRequest.getFirstName());
+        user.setAnnualBonus(userUpdateRequest.getAnnualBonus());
+        user.setVacationBalance(userUpdateRequest.getVacationBalance());
+        user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
+
+        userRepository.save(user);
+        return user;
     }
 }
 

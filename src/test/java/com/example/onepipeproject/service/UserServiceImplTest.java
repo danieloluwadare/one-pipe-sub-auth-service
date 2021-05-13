@@ -9,6 +9,7 @@ import com.example.onepipeproject.model.User;
 import com.example.onepipeproject.model.dto.ManagerUpdateRequest;
 import com.example.onepipeproject.model.dto.RolesUpdateRequest;
 import com.example.onepipeproject.model.dto.SignUpRequest;
+import com.example.onepipeproject.model.dto.UserUpdateRequest;
 import com.example.onepipeproject.repository.RoleRepository;
 import com.example.onepipeproject.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Mock
     private ApplicationEventPublisher applicationEventPublisher;
@@ -392,6 +393,9 @@ class UserServiceTest {
         Mockito.lenient().when(userRepositoryMock.findById(managerUpdateRequest.getUserId()))
                 .thenReturn(user);
 
+        Mockito.lenient().when(userRepositoryMock.findById(managerUpdateRequest.getUserId()))
+                .thenReturn(user);
+
         String resourceName="Manager";
         String fieldName = "id";
         String fieldValue = "2";
@@ -520,4 +524,111 @@ class UserServiceTest {
 
         assertTrue(expectedExceptionMessage.contains(exception.getMessage()));
     }
-}
+
+    @Test
+    public void testGetUserById(){
+        User user = new User();
+        user.setId(1l);
+        user.setFirstName("test");
+        user.setLastName("test");
+        user.setEmail("test@gmail.com");
+        user.setSalary(new BigDecimal("20000.00"));
+
+
+        Mockito.lenient().when(userRepositoryMock.findById(1l))
+                .thenReturn(user);
+
+
+        User user1 = userService.getUserById(1l);
+
+
+        assertEquals((long) user1.getId(), 1L);
+    }
+
+    @Test
+    public void testGetUserByInValidIdReturnResourceNotFoundException(){
+
+        User user = new User();
+        user.setId(1l);
+        user.setFirstName("test");
+        user.setLastName("test");
+        user.setEmail("test@gmail.com");
+        user.setSalary(new BigDecimal("20000.00"));
+
+
+        Mockito.lenient().when(userRepositoryMock.findById(1l))
+                .thenReturn(null);
+
+        String resourceName="User";
+        String fieldName = "id";
+        String fieldValue = "1";
+        String expectedExceptionMessage = String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue);
+
+
+        Exception exception = assertThrows(OnePipeResourceNotFoundException.class, () -> {
+            userService.getUserById(1l);
+        });
+
+        assertTrue(expectedExceptionMessage.contains(exception.getMessage()));
+    }
+
+    @Test
+    public void testUpdateUserWithSignUpRequest(){
+        User user = new User();
+        user.setEmail("test@email.com");
+        user.setFirstName("firstname");
+        user.setLastName("lastName");
+        user.setPassword("password");
+        user.setId(1L);
+
+        Mockito.lenient().when(userRepositoryMock.save(Mockito.any(User.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
+
+//        Mockito.lenient().when(userRepositoryMock.existsByEmail(Mockito.anyString()))
+//                .thenReturn(false);
+
+        Mockito.lenient().when(passwordEncoder.encode(Mockito.anyString()))
+                .thenReturn("password");
+
+        Mockito.lenient().when(userRepositoryMock.findById(1L))
+                .thenReturn(user);
+
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
+        userUpdateRequest.setEmail("test@email.com");
+        userUpdateRequest.setFirstName("firstname");
+        userUpdateRequest.setLastName("lastName");
+        userUpdateRequest.setPassword("password");
+        userUpdateRequest.setUserId(1L);
+
+        User user1 = userService.update(userUpdateRequest);
+        assertEquals(user1.getEmail(), userUpdateRequest.getEmail());
+    }
+
+    public void testUpdateUserWithNonExistingUserIdThrowResourceNotFoundException(){
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
+        userUpdateRequest.setEmail("test@email.com");
+        userUpdateRequest.setFirstName("firstname");
+        userUpdateRequest.setLastName("lastName");
+        userUpdateRequest.setPassword("password");
+        userUpdateRequest.setUserId(1L);
+
+
+        Mockito.lenient().when(userRepositoryMock.findById(1l))
+                .thenReturn(null);
+
+        String resourceName="User";
+        String fieldName = "id";
+        String fieldValue = "1";
+        String expectedExceptionMessage = String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue);
+
+
+        Exception exception = assertThrows(OnePipeResourceNotFoundException.class, () -> {
+            userService.update(userUpdateRequest);
+        });
+
+        assertTrue(expectedExceptionMessage.contains(exception.getMessage()));
+    }
+
+
+
+    }

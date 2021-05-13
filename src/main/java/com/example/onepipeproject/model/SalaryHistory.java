@@ -21,5 +21,8 @@ public class SalaryHistory {
 
     private BigDecimal salary;
 
-
+    public SalaryHistory(User user, BigDecimal salary) {
+        this.user = user;
+        this.salary = salary;
+    }
 }

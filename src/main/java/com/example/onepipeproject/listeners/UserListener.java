@@ -1,4 +1,4 @@
-package com.example.onepipeproject.listners;
+package com.example.onepipeproject.listeners;
 
 import com.example.onepipeproject.events.SalaryEvent;
 import com.example.onepipeproject.events.UserCreationEvent;
