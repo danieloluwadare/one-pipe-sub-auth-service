@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class SignUpRequest {
     @NotBlank
-    @Size(min = 20, max = 40)
+    @Size(min = 2, max = 40)
     private String firstName;
     @NotBlank
     @Size(min = 4, max = 40)
@@ -27,13 +27,10 @@ public class SignUpRequest {
     @NotBlank
     private String password;
 
-    @NotBlank
     private BigDecimal salary;
 
-    @NotBlank
     private BigDecimal vacationBalance;
 
-    @NotBlank
     private BigDecimal annualBonus;
 
 }

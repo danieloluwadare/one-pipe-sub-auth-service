@@ -27,7 +27,7 @@ public class SimpleCORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers",
                 "x-requested-with,x-auth-username,x-auth-password,x-auth-token,x-auth-old-password, origin,accept, " +
-                        "content-type,access-control-request-method,access-control-request-headers, authorization");
+                        "content-type,access-control-request-method,access-control-request-headers,authorization");
 
         if (!request.getMethod().equals("OPTIONS")) {
             try {

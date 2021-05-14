@@ -18,6 +18,8 @@ public interface UserService {
     User updateUserManager(ManagerUpdateRequest managerUpdateRequest);
     User getUserById(long id);
     User update(UserUpdateRequest userUpdateRequest);
+    User getUserByEmail(String email);
+
 //    User create(SignUpRequest signUpRequest, String password);
 //    boolean checkEmailExist(User user);
 //    User getUserByEmail(String email);

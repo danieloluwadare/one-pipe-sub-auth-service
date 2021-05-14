@@ -1,5 +1,8 @@
 package com.example.onepipeproject.Enums;
 
 public enum RoleName {
-    EMPLOYEE_ROLE,
+    ROLE_ADMIN,
+    ROLE_EMPLOYEE,
+    ROLE_MANAGER,
+    ROLE_HR
 }

@@ -7,6 +7,7 @@ import lombok.NonNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -15,10 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 public class RolesUpdateRequest {
 
-    @NotBlank
-    @Size(min = 4, max = 40)
+    @NotNull(message = "Please enter id")
     private long userId;
 
-    @NonNull
+    @NotNull
     private List<Long> roles;
 }

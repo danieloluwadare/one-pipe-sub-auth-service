@@ -23,9 +23,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-/**
- * @author Abiola.Adebanjo
- */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -39,7 +36,8 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/api/v1/user/sign-up/test","/hello-world","/");
+        web.ignoring().antMatchers("/api/v1/user/sign-up/test","/hello-world");
+
     }
 
     @Override
@@ -65,9 +63,17 @@ public class Security extends WebSecurityConfigurerAdapter {
                         "/**/*.js")
                 .permitAll()
                 .antMatchers("/api/auth/**")
-                .permitAll();
+                .permitAll()
+                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability", "/api/v1/accounts")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
+                .permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .anyRequest().authenticated().and().exceptionHandling().accessDeniedHandler(new CustomSecurityDeniedHandler())
+        ;
 
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

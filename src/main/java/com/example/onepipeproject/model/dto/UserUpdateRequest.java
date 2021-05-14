@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
@@ -13,11 +14,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateRequest {
-    @NotBlank
+    @NotNull
     private long userId;
 
     @NotBlank
-    @Size(min = 20, max = 40)
+    @Size(min = 2, max = 40)
     private String firstName;
     @NotBlank
     @Size(min = 4, max = 40)
@@ -30,13 +31,13 @@ public class UserUpdateRequest {
     @NotBlank
     private String password;
 
-    @NotBlank
+    @NotNull
     private BigDecimal salary;
 
-    @NotBlank
+    @NotNull
     private BigDecimal vacationBalance;
 
-    @NotBlank
+    @NotNull
     private BigDecimal annualBonus;
 
 }

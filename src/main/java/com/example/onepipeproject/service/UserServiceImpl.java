@@ -15,11 +15,13 @@ import com.example.onepipeproject.repository.RoleRepository;
 import com.example.onepipeproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
                 signUpRequest.getAnnualBonus());
 
 
-        user.getRoles().add(roleRepository.findByName(RoleName.EMPLOYEE_ROLE.name()));
+        user.getRoles().add(roleRepository.findByName(RoleName.ROLE_EMPLOYEE.name()));
         user = userRepository.save(user);
         applicationEventPublisher.publishEvent(new UserCreationEvent(this,user));
         return user;
@@ -130,6 +132,14 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
         return user;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if(user != null)
+            return user;
+        throw new  OnePipeResourceNotFoundException("User","email",email);
     }
 }
 

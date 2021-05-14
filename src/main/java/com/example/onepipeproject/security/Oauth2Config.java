@@ -28,7 +28,7 @@ import java.util.Arrays;
  * @author Abiola.Adebanjo
  */
 public class Oauth2Config {
-    private static final String RESOURCE_ID = "medthreat2";
+    private static final String RESOURCE_ID = "onepipeservice";
 
     @Configuration
     @EnableResourceServer
@@ -107,13 +107,13 @@ public class Oauth2Config {
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             clients
                     .inMemory()
-                    .withClient("medthreat")
+                    .withClient(RESOURCE_ID)
                     .authorizedGrantTypes("password", "refresh_token", "client_credentials")
                     .authorities("CLIENT")
                     .scopes("read", "write", "profile")
                     .resourceIds(RESOURCE_ID)
                     .secret(passwordEncoder.encode("123456"))
-                    .accessTokenValiditySeconds(1800);
+                    .accessTokenValiditySeconds(36000000);
         }
 
         @Bean

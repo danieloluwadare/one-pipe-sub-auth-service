@@ -1,7 +1,9 @@
 package com.example.onepipeproject.model;
 
 import com.example.onepipeproject.model.audit.DateAudit;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -39,7 +41,7 @@ public class User extends DateAudit {
     @Size(max = 255)
     private String lastName;
 
-    @NaturalId
+    @NaturalId(mutable = true)
     @NotBlank
     @Size(max = 255)
     @Email
@@ -48,19 +50,21 @@ public class User extends DateAudit {
     @JsonIgnore
     private String password;
 
-    @NotBlank
+
     private BigDecimal salary;
 
-    @NotBlank
     private BigDecimal vacationBalance;
 
-    @NotBlank
     private BigDecimal annualBonus;
 
+
+    @JsonManagedReference
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="manager_id")
     private User manager;
 
+//    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy="manager")
     private Set<User> employees = new HashSet<User>();
 
@@ -79,8 +83,10 @@ public class User extends DateAudit {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @JsonIgnore
+//    @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+                cascade = CascadeType.ALL)
     private Set<SalaryHistory> salaryHistories;
 
 
@@ -94,14 +100,13 @@ public class User extends DateAudit {
         this.password = password;
     }
 
-    public User(@NotBlank @Size(max = 255) String firstName,
-                @NotBlank @Size(max = 255) String lastName,
-                @NotBlank @Size(max = 255)
-                @Email String email,
+    public User(String firstName,
+                String lastName,
+                String email,
                 String password,
-                @NotBlank BigDecimal salary,
-                @NotBlank BigDecimal vacationBalance,
-                @NotBlank BigDecimal annualBonus) {
+                BigDecimal salary,
+                BigDecimal vacationBalance,
+                BigDecimal annualBonus) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -110,4 +115,6 @@ public class User extends DateAudit {
         this.vacationBalance = vacationBalance;
         this.annualBonus = annualBonus;
     }
+
+
 }

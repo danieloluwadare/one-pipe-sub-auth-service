@@ -1,8 +1,8 @@
 package com.example.onepipeproject.security;
 
-import com.example.onepipeproject.repository.UserRepository;
 import com.example.onepipeproject.exception.OnePipeResourceNotFoundException;
 import com.example.onepipeproject.model.User;
+import com.example.onepipeproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,10 +25,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
         // Let people login with either username or email
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with email : " + email)
-                );
+        User user = userRepository.findByEmail(email);
+        if(user==null)
+            throw new UsernameNotFoundException("User not found with email : " + email);
 
         return UserPrincipal.create(user);
     }

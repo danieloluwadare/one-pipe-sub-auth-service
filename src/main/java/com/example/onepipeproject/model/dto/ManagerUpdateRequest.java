@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -14,10 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ManagerUpdateRequest {
 
-    @NotBlank
-    @Size(min = 4, max = 40)
+    @NotNull
     private long userId;
 
-    @NonNull
+    @NotNull
     private long managerUserId;
 }

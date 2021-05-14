@@ -141,9 +141,9 @@ class UserServiceImplTest {
 
         Role role = new Role();
         role.setId(1l);
-        role.setName(RoleName.EMPLOYEE_ROLE.name());
+        role.setName(RoleName.ROLE_EMPLOYEE.name());
 
-        Mockito.lenient().when(roleRepositoryMock.findByName(RoleName.EMPLOYEE_ROLE.name()))
+        Mockito.lenient().when(roleRepositoryMock.findByName(RoleName.ROLE_EMPLOYEE.name()))
                 .thenReturn(role);
 
         SignUpRequest signUpRequest = new SignUpRequest();
@@ -629,6 +629,51 @@ class UserServiceImplTest {
         assertTrue(expectedExceptionMessage.contains(exception.getMessage()));
     }
 
+    @Test
+    public void testGetUserByEmail(){
+        User user = new User();
+        user.setId(1l);
+        user.setFirstName("test");
+        user.setLastName("test");
+        user.setEmail("test@gmail.com");
+        user.setSalary(new BigDecimal("20000.00"));
 
 
+        Mockito.lenient().when(userRepositoryMock.findByEmail(user.getEmail()))
+                .thenReturn(user);
+
+
+        User user1 = userService.getUserByEmail(user.getEmail());
+
+
+        assertEquals((long) user1.getId(), 1L);
     }
+
+    @Test
+    public void testGetUserByInValidEmailReturnResourceNotFoundException(){
+
+        User user = new User();
+        user.setId(1l);
+        user.setFirstName("test");
+        user.setLastName("test");
+        user.setEmail("test@gmail.com");
+        user.setSalary(new BigDecimal("20000.00"));
+
+
+        Mockito.lenient().when(userRepositoryMock.findByEmail(user.getEmail()))
+                .thenReturn(null);
+
+        String resourceName="User";
+        String fieldName = "email";
+        String fieldValue = user.getEmail();
+        String expectedExceptionMessage = String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue);
+
+
+        Exception exception = assertThrows(OnePipeResourceNotFoundException.class, () -> {
+            userService.getUserByEmail(user.getEmail());
+        });
+
+        assertTrue(expectedExceptionMessage.contains(exception.getMessage()));
+    }
+
+}
