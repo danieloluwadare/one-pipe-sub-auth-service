@@ -19,6 +19,8 @@ public interface UserService {
     User getUserById(long id);
     User update(UserUpdateRequest userUpdateRequest);
     User getUserByEmail(String email);
+    List<User> getAllEmployee(long managerId);
+
 
 //    User create(SignUpRequest signUpRequest, String password);
 //    boolean checkEmailExist(User user);

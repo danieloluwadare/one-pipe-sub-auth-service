@@ -1,5 +1,6 @@
 package com.example.onepipeproject.controller;
 
+import com.example.onepipeproject.annotations.AuthorityPriorityCheck;
 import com.example.onepipeproject.model.User;
 import com.example.onepipeproject.model.dto.ManagerUpdateRequest;
 import com.example.onepipeproject.model.dto.RolesUpdateRequest;
@@ -34,23 +35,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER_UPDATE_DRUG','ROLE_USER_UPDATE_DRUG')")
-    @GetMapping(path = "/test-my-drug-test", produces = APPLICATION_JSON_VALUE)
-    public List<User> getAllDrugs(Principal principal, HttpServletRequest httpServletRequest) {
-//        List<Drug> drugs = new ArrayList<>();
-//        drugs.add(new Drug(1l,"drug",new BigDecimal("300"),"dd",0));
-//        drugs.add(new Drug(2l,"drug",new BigDecimal("300"),"dd",0));
-//        drugs.add(new Drug(3l,"drug",new BigDecimal("300"),"dd",0));
-//        drugs.add(new Drug(4l,"drug",new BigDecimal("300"),"dd",0));
-//
-//        String email = httpServletRequest.getUserPrincipal().getName();
-
-//        System.out.println(email);
-//        System.out.println(principal.getName());
-////        auditTrailService.generate(httpServletRequest, null, LEGALSTATUS.LEGAL.value);
-//        return drugs;
-        return null;
-    }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PostMapping(path = "/create")
@@ -93,8 +77,15 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_MANAGER','ROLE_HR','ROLE_EMPLOYEE')")
+    @AuthorityPriorityCheck
     @GetMapping(path = "/view/{id}", produces = APPLICATION_JSON_VALUE)
     public User getUser(@PathVariable long id,Principal principal, HttpServletRequest httpServletRequest) {
         return userService.getUserById(id);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_MANAGER')")
+    @GetMapping(path = "/view-all-employee/{managerId}", produces = APPLICATION_JSON_VALUE)
+    public List<User> getAllEmployee(@PathVariable long managerId,Principal principal, HttpServletRequest httpServletRequest) {
+        return userService.getAllEmployee(managerId);
     }
 }

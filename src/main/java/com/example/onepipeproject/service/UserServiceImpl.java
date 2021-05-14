@@ -98,9 +98,15 @@ public class UserServiceImpl implements UserService {
             throw new OnePipeResourceNotFoundException("Manager","id",managerUpdateRequest.getManagerUserId());
 
         User user = userRepository.findById(managerUpdateRequest.getUserId());
+
         if(user.getManager() != null && user.getManager().getId() == managerUpdateRequest.getManagerUserId())
             throw new OnePipeOPerationNotAllowedException("User Already reports to Manager");
+
         User manager = userRepository.findById(managerUpdateRequest.getManagerUserId());
+        Set<String> stringSet = new HashSet<>();
+        manager.getRoles().forEach(role -> stringSet.add(role.getName()));
+        if(!stringSet.contains(RoleName.ROLE_MANAGER.name()))
+            throw new OnePipeOPerationNotAllowedException("User Manager_Role Is Missing");
 
         user.setManager(manager);
         userRepository.save(user);
@@ -115,6 +121,15 @@ public class UserServiceImpl implements UserService {
             return user;
 
         throw new OnePipeResourceNotFoundException("User","id",id);
+
+    }
+
+    public List<User> getAllEmployee(long managerId) {
+        List<User> users = userRepository.findByManager_Id(managerId);
+        if(users != null)
+            return users;
+
+        throw new OnePipeOPerationNotAllowedException("No Employee found");
 
     }
 
