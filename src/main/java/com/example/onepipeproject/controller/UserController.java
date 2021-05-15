@@ -84,8 +84,9 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_MANAGER')")
-    @GetMapping(path = "/view-all-employee/{managerId}", produces = APPLICATION_JSON_VALUE)
-    public List<User> getAllEmployee(@PathVariable long managerId,Principal principal, HttpServletRequest httpServletRequest) {
-        return userService.getAllEmployee(managerId);
+    @GetMapping(path = "/view-all-employee", produces = APPLICATION_JSON_VALUE)
+    public List<User> getAllEmployee(Principal principal, HttpServletRequest httpServletRequest) {
+        User manager = userService.getUserByEmail(principal.getName());
+        return userService.getAllEmployee(manager.getId());
     }
 }

@@ -1,6 +1,7 @@
 
 #datasource
 spring:
+  databaseUrl: localhost:3307/onepipe
   datasource:
     url: jdbc:mysql://localhost:3307/onepipe?useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root

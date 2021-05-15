@@ -277,13 +277,17 @@ class UserServiceImplTest {
         user.setEmail("test@gmail.com");
         user.setSalary(new BigDecimal("20000.00"));
 
+        Role role = new Role(1L, RoleName.ROLE_MANAGER.name());
+        Set<Role>roles = new HashSet<>();
+        roles.add(role);
+
         User manager = new User();
         manager.setId(2l);
         manager.setFirstName("manager");
         manager.setLastName("test");
         manager.setEmail("manager@gmail.com");
         manager.setSalary(new BigDecimal("20000.00"));
-
+        manager.setRoles(roles);
 //        user.setManager(manager);
 
         Mockito.lenient().when(userRepositoryMock.existsById(managerUpdateRequest.getManagerUserId()))
@@ -331,12 +335,18 @@ class UserServiceImplTest {
 
         user.setManager(manager);
 
+        Role role = new Role(1L, RoleName.ROLE_MANAGER.name());
+        Set<Role>roles = new HashSet<>();
+        roles.add(role);
+
         User newManager = new User();
         newManager.setId(3l);
         newManager.setFirstName("manager");
         newManager.setLastName("test");
         newManager.setEmail("manager@gmail.com");
         newManager.setSalary(new BigDecimal("20000.00"));
+        newManager.setRoles(roles);
+
 
         Mockito.lenient().when(userRepositoryMock.existsById(managerUpdateRequest.getManagerUserId()))
                 .thenReturn(true);
