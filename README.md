@@ -19,15 +19,12 @@ Build the jar file using maven command
 
 #### To start the application
 
-Step 1: Create docker network
+Step 1: Start the service
 
     docker compose up
     
-
-
-
     
-Step 5: access the springboot application from browser 
+Step 2: access the springboot application from browser 
 
     http://localhost:7000
 
