@@ -1,5 +1,6 @@
 package com.example.onepipeproject.service;
 
+import com.example.onepipeproject.exception.OnePipeResourceNotFoundException;
 import com.example.onepipeproject.model.SalaryHistory;
 import com.example.onepipeproject.model.User;
 import com.example.onepipeproject.repository.SalaryHistoryRepository;
@@ -13,8 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class SalaryHistoryImplTest {
@@ -53,5 +53,32 @@ class SalaryHistoryImplTest {
 
         assertSame(salaryHistory.getUser().getSalary(), user.getSalary());
 
+    }
+
+//    get all salary history of a particular user
+//    req = i need userId
+//          - id does not exist
+//          - id exist but no history
+
+    @Test
+    public void testGetHistoryWhenUserIdDoesNotExistReturnResourceNotFoundException(){
+//        fetch a user and return null
+        long userId = 1l;
+        Mockito.lenient().when(userRepositoryMock.findById(1l))
+                .thenReturn(null);
+
+        String resourceName="Salary History User";
+        String fieldName = "id";
+        String fieldValue = "1" ;
+        String expectedExceptionMessage = String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue);
+
+//        Salary History User not found with id : 1'
+
+        Exception exception = assertThrows(OnePipeResourceNotFoundException.class, () -> {
+//            userService.updateUserRoles(rolesUpdateRequest);
+
+            salaryHistoryService.getHistory(userId);
+        });
+        assertTrue(expectedExceptionMessage.contains(exception.getMessage()));
     }
 }

@@ -37,7 +37,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
-    public UserServiceImpl(ApplicationEventPublisher applicationEventPublisher, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public UserServiceImpl(ApplicationEventPublisher applicationEventPublisher,
+                           UserRepository userRepository,
+                           RoleRepository roleRepository,
+                           PasswordEncoder passwordEncoder,
+                           RoleService roleService) {
         this.applicationEventPublisher = applicationEventPublisher;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

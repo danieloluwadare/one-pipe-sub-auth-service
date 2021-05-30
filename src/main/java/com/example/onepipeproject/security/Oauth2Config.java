@@ -108,6 +108,7 @@ public class Oauth2Config {
             clients
                     .inMemory()
                     .withClient(RESOURCE_ID)
+//                    .withClient("medthreat")
                     .authorizedGrantTypes("password", "refresh_token", "client_credentials")
                     .authorities("CLIENT")
                     .scopes("read", "write", "profile")

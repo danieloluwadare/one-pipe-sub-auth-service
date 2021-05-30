@@ -1,5 +1,6 @@
 package com.example.onepipeproject.service;
 
+import com.example.onepipeproject.exception.OnePipeResourceNotFoundException;
 import com.example.onepipeproject.model.SalaryHistory;
 import com.example.onepipeproject.model.User;
 import com.example.onepipeproject.repository.SalaryHistoryRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class SalaryHistoryServiceImpl implements SalaryHistoryService {
@@ -26,5 +28,15 @@ public class SalaryHistoryServiceImpl implements SalaryHistoryService {
         SalaryHistory salaryHistory = new SalaryHistory(user,salary);
         salaryHistory=salaryHistoryRepository.save(salaryHistory);
         return salaryHistory;
+    }
+
+    @Override
+    public List<SalaryHistory> getHistory(long userId) {
+        User user = userRepository.findById(userId);
+        if(user==null){
+            throw new OnePipeResourceNotFoundException("Salary History User","id",userId);
+        }
+
+        return null;
     }
 }
