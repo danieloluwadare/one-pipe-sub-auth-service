@@ -1,7 +1,7 @@
 package com.example.onepipeproject.config;
 
 
-//import com.example.onepipeproject.exception.CustomSecurityDeniedHandler;
+/* import com.example.onepipeproject.exception.CustomSecurityDeniedHandler; */
 import com.example.onepipeproject.security.CustomUserDetailsService;
 import com.example.onepipeproject.security.UserAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,10 +75,10 @@ public class Security extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

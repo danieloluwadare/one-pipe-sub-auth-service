@@ -9,9 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Abiola.Adebanjo
- */
+
 @Component
 public class UserAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     @Autowired

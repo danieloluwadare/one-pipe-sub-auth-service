@@ -4,7 +4,7 @@ spring:
   databaseUrl: localhost:3307/onepipe
 
   datasource:
-    url: jdbc:mysql://192.168.20.35:3306/onepipe?useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/onepipe?useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: rootpassword
   jpa:
